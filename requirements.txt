@@ -1,3 +1,9 @@
-xgboost==1.7.3
-pandas==2.1.0
-streamlit==1.14.0
+streamlit
+streamlit_option_menu
+numpy
+pandas
+xgboost
+scikit-learn
+seaborn
+matplotlib
+pickle
