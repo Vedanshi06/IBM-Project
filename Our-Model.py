@@ -4,15 +4,24 @@ import pickle
 from datetime import datetime
 
 # Load the trained model and feature names
-with open('model_with_features.pkl', 'rb') as file:
-    model, feature_names = pickle.load(file)
+try:
+    with open('model_with_features.pkl', 'rb') as file:
+        model, feature_names = pickle.load(file)
+except FileNotFoundError:
+    st.error("Model file not found. Please ensure 'model_with_features.pkl' is in the correct directory.")
+    st.stop()
 
 # Load the data once
-data = pd.read_csv('long_data_.csv')
+try:
+    data = pd.read_csv('long_data_.csv')
+except FileNotFoundError:
+    st.error("Data file not found. Please ensure 'long_data_.csv' is in the correct directory.")
+    st.stop()
 
 # Get unique states
-states = (data['States'].unique())
+states = data['States'].unique()
 states.sort()
+
 def getAttributes(state):
     state_index = data[data['States'] == state].index[0]
     state_data = data.iloc[state_index]
@@ -74,14 +83,14 @@ def preprocess_input(state, date_input):
 # Streamlit app
 st.set_page_config(
     page_title="Quantum Leap IBM project",
-    page_icon = "icon.png"
+    page_icon="icon.png"
 )
 st.title('Energy Consumption Prediction')
 
 st.sidebar.success("Above mentioned are the Team Members! Feel free to contact!")
 
 # Input fields
-state = st.selectbox('Select State', options=states)  # Replace with actual state options
+state = st.selectbox('Select State', options=states)
 date_input = st.text_input('Enter Date (DD-MM-YYYY)', '')
 
 # Prediction button
@@ -89,9 +98,6 @@ if st.button('Predict'):
     if date_input:
         input_data = preprocess_input(state, date_input)
         if input_data is not None:
-            # Debug: Print columns to check
-            # st.write("Input data columns:", input_data.columns.tolist())
-
             prediction = model.predict(input_data)
             st.write(f'Predicted Energy Consumption: {prediction[0]:.3f} mW')
         else:
