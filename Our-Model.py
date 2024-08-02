@@ -5,8 +5,7 @@ from datetime import datetime
 
 # Load the trained model and feature names
 try:
-    with open('model_with_features.pkl', 'rb') as file:
-        model, feature_names = pickle.load(file)
+    model, feature_names = pickle.load(open('model_with_features.pkl', 'rb'))
 except FileNotFoundError:
     st.error("Model file not found. Please ensure 'model_with_features.pkl' is in the correct directory.")
     st.stop()
