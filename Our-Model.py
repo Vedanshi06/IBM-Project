@@ -10,18 +10,12 @@ try:
 except FileNotFoundError:
     st.error("Model file not found. Please ensure 'model_with_features.pkl' is in the correct directory.")
     st.stop()
-except Exception as e:
-    st.error(f"An error occurred while loading the model: {e}")
-    st.stop()
 
 # Load the data once
 try:
     data = pd.read_csv('long_data_.csv')
 except FileNotFoundError:
     st.error("Data file not found. Please ensure 'long_data_.csv' is in the correct directory.")
-    st.stop()
-except Exception as e:
-    st.error(f"An error occurred while loading the data: {e}")
     st.stop()
 
 # Get unique states
